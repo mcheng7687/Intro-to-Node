@@ -44,27 +44,21 @@ async function webCat(action, path, newFilePath) {
 
 async function handlePath() {
     let path = argv[2];
+    let action = "read";
+    let newFilePath;
 
     if (path == "--out") {
-        let newFilePath = argv[3];
+        newFilePath = argv[3];
         path = argv[4];
-
-        if (path.endsWith(".txt"))
-            cat("write", path, newFilePath);
-        else if (path.startsWith("http"))
-            webCat("write", path, newFilePath);
-        else {
-            console.log("This isn't a text file or a web address! Try again.");
-        }
+        action = "write";
     }
-    else {
-        if (path.endsWith(".txt"))
-            cat("read", path);
-        else if (path.startsWith("http"))
-            webCat("read", path);
-        else
-            console.log("This isn't a text file or a web address! Try again.");
-    }
+    
+    if (path.endsWith(".txt"))
+        cat(action, path, newFilePath);
+    else if (path.startsWith("http"))
+        webCat(action, path, newFilePath);
+    else
+        console.log("This isn't a text file or a web address! Try again.");
 }
 
 handlePath();
